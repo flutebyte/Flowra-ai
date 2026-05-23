@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Flowra Advanced Test Page</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 18px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #spinner {
+            display: none;
+            margin-top: 15px;
+            color: orange;
+        }
+
+        #modal {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid black;
+            width: 250px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Flowra Advanced Testing Playground</h1>
+
+    <input
+        type="text"
+        id="nameInput"
+        placeholder="Enter your name"
+    />
+
+    <br><br>
+
+    <!-- Working -->
+    <button id="welcomeBtn">
+        Show Welcome
+    </button>
+
+    <!-- Broken -->
+    <button id="brokenBtn">
+        Broken Button
+    </button>
+
+    <!-- Redirect -->
+
+    <!-- Delayed -->
+    <button id="delayBtn">
+        Delayed Response
+    </button>
+
+    <!-- Disabled -->
+    <button id="disabledBtn" disabled>
+        Disabled Button
+    </button>
+
+    <!-- Modal -->
+    <button id="modalBtn">
+        Open Modal
+    </button>
+
+    <!-- Dynamic -->
+    <button id="dynamicBtn">
+        Create New Button
+    </button>
+
+    <button id="redirectBtn">
+        Go To Success Page
+    </button>
+
+    <div id="message"></div>
+
+    <div id="spinner">
+        Loading...
+    </div>
+
+    <div id="modal">
+        🎉 Modal Opened Successfully
+    </div>
+
+    
+
+    <script>
+
+        // Welcome button
+        document
+            .getElementById("welcomeBtn")
+            .addEventListener("click", () => {
+
+                const name =
+                    document.getElementById("nameInput").value;
+
+                document.getElementById("message").innerText =
+                    `Welcome ${name}`;
+            });
+
+        // Broken button
+        document
+            .getElementById("brokenBtn")
+            .addEventListener("click", () => {
+
+                console.error("Button failed unexpectedly");
+
+            });
+
+        // Redirect
+        document
+            .getElementById("redirectBtn")
+            .addEventListener("click", () => {
+
+                window.location.href = "success.html";
+
+            });
+
+        // Delayed response
+        document
+            .getElementById("delayBtn")
+            .addEventListener("click", () => {
+
+                const spinner =
+                    document.getElementById("spinner");
+
+                spinner.style.display = "block";
+
+                setTimeout(() => {
+
+                    spinner.style.display = "none";
+
+                    document.getElementById("message").innerText =
+                        "Delayed action completed";
+
+                }, 3000);
+
+            });
+
+        // Modal button
+        document
+            .getElementById("modalBtn")
+            .addEventListener("click", () => {
+
+                document.getElementById("modal").style.display =
+                    "block";
+
+            });
+
+        // Dynamic button creation
+        document
+            .getElementById("dynamicBtn")
+            .addEventListener("click", () => {
+
+                const btn =
+                    document.createElement("button");
+
+                btn.innerText = "Dynamically Added";
+
+                btn.onclick = () => {
+                    alert("Dynamic button clicked!");
+                };
+
+                document.body.appendChild(btn);
+
+            });
+
+    </script>
+
+</body>
+</html>
