@@ -1,96 +1,112 @@
 {
     "logs": [
         {
+            "timestamp": "01:42:31",
             "type": "SYSTEM",
             "target": "browser launch",
             "status": "success",
             "category": null
         },
         {
+            "timestamp": "01:42:32",
             "type": "CONSOLE",
             "target": "Live reload enabled.",
             "status": "log",
-            "category": "FRONTEND_ERROR"
+            "category": null
         },
         {
+            "timestamp": "01:42:33",
             "type": "NAVIGATION",
             "target": "login page",
             "status": "success",
             "category": null
         },
         {
+            "timestamp": "01:42:33",
             "type": "CONSOLE",
             "target": "Failed to load resource: the server responded with a status of 404 (Not Found)",
             "status": "error",
             "category": "FRONTEND_ERROR"
         },
         {
+            "timestamp": "01:42:33",
             "type": "INPUT",
             "target": "input_0",
             "status": "success",
-            "category": null
+            "category": "INPUT_FIELD"
         },
         {
+            "timestamp": "01:42:33",
             "type": "PAGE_CHANGE",
             "target": "Show Welcome changed page",
             "status": "success",
             "category": null
         },
         {
+            "timestamp": "01:42:34",
             "type": "CONSOLE",
             "target": "Button failed unexpectedly",
             "status": "error",
             "category": "FRONTEND_ERROR"
         },
         {
+            "timestamp": "01:42:34",
             "type": "PAGE_CHANGE",
             "target": "Broken Button did not change page",
             "status": "warning",
             "category": "BROKEN_INTERACTION"
         },
         {
+            "timestamp": "01:42:34",
+            "type": "SCREENSHOT",
+            "target": "screenshots/failure_broken_interaction_Broken Button_1779912754.png",
+            "status": "captured",
+            "category": "FAILURE_EVIDENCE"
+        },
+        {
+            "timestamp": "01:42:34",
             "type": "PAGE_CHANGE",
             "target": "Delayed Response changed page",
             "status": "success",
             "category": null
         },
         {
+            "timestamp": "01:42:34",
             "type": "CLICK",
             "target": "button 'Disabled Button'",
             "status": "warning: disabled",
             "category": "DISABLED_ELEMENT"
         },
         {
+            "timestamp": "01:42:34",
             "type": "PAGE_CHANGE",
             "target": "Open Modal changed page",
             "status": "success",
             "category": null
         },
         {
-            "type": "DOM_CHANGE",
-            "target": "new button detected",
-            "status": "success",
-            "category": null
-        },
-        {
+            "timestamp": "01:42:34",
             "type": "PAGE_CHANGE",
             "target": "Create New Button changed page",
             "status": "success",
             "category": null
         },
         {
+            "timestamp": "01:42:34",
+            "type": "DOM_CHANGE",
+            "target": "new button detected",
+            "status": "success",
+            "category": null
+        },
+        {
+            "timestamp": "01:42:34",
             "type": "NAVIGATION",
             "target": "http://127.0.0.1:5500/success.html",
             "status": "success",
             "category": null
         },
         {
-            "type": "PAGE_CHANGE",
-            "target": "Go To Success Page changed page",
-            "status": "success",
-            "category": null
-        },
-        {
+            "timestamp": "01:42:37",
             "type": "CLICK",
             "target": "unknown_button",
             "status": "failed",
@@ -99,22 +115,12 @@
     ],
     "summary": {
         "total_events": 16,
-        "successes": 10,
-        "warnings": 2,
-        "failures": 1,
         "score": 60,
         "grade": "Needs Improvement",
-        "frontend_errors": [
-            "Failed to load resource: the server responded with a status of 404 (Not Found)",
-            "Button failed unexpectedly"
-        ],
-        "interaction_issues": [
-            "Broken Button did not change page"
-        ],
-        "recommendations": [
-            "Frontend console errors detected. Check Javascript logic or missing resources.",
-            "Broken Button did not change page may have broken click handling or missing UI response."
-        ],
-        "execution_time": 2.91
-    }
+        "execution_time": 3.85,
+        "frontend_errors": 2,
+        "broken_interactions": 1,
+        "stale_locators": 1
+    },
+    "generated_at": "2026-05-28 01:42:37"
 }
