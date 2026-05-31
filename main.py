@@ -6,11 +6,20 @@ import os
 logs = []
 
 def track(event_type, target, status, category=None):
+    severity_map = {
+        "FRONTEND_ERROR": "HIGH",
+        "BROKEN_INTERACTION": "HIGH",
+        "STALE_LOCATOR": "LOW",
+        "DISABLED_ELEMENT": "MEDIUM",
+        "FAILURE_EVIDENCE": "INFO"
+    }
+    severity = severity_map.get(category, "INFO")
     logs.append({
         "timestamp": time.strftime("%H:%M:%S"),
         "type": event_type,
         "target": target,
         "status": status,
+        "severity": severity,
         "category": category
     })
 
@@ -49,6 +58,7 @@ def safe_click(page, button, button_text):
             return False, "disabled"
 
         button.click(timeout=4000)
+        page.wait_for_timeout(500)
         try:
             page.wait_for_load_state("domcontentloaded", timeout=3000)
         except:
@@ -60,26 +70,58 @@ def safe_click(page, button, button_text):
         return False, "exception"
 
 
-def detect_interaction_result(page, button_text, before_url, before_content):
+def detect_interaction_result(
+    page,
+    button_text,
+    before_url,
+    before_title,
+    before_buttons,
+    before_text
+):
     """Analyze what happened after click"""
-    after_url = page.url
-    
+
     try:
-        after_content = page.content()
+        after_title = page.title()
+        after_url = page.url
+        after_buttons = page.locator("button").count()
+        after_text = page.locator("body").inner_text(timeout=2000)
     except:
-        after_content = ""
+        after_title = ""
+        after_url = page.url
+        after_buttons = 0
+        after_text = ""
 
     if after_url != before_url:
         track("NAVIGATION", after_url, "success")
         return "navigation"
 
-    elif before_content == after_content:
-        track("PAGE_CHANGE", f"{button_text} did not change page", "warning", "BROKEN_INTERACTION")
-        take_failure_screenshot(page, f"broken_interaction_{button_text[:25]}")
+    elif (
+        before_url == after_url and
+        before_title == after_title and
+        before_buttons == after_buttons and
+        before_text == after_text
+    ):
+        track(
+            "PAGE_CHANGE",
+            f"{button_text} did not change page",
+            "warning",
+            "BROKEN_INTERACTION"
+        )
+
+        take_failure_screenshot(
+            page,
+            f"broken_interaction_{button_text[:25]}"
+        )
+
         return "broken"
 
     else:
-        track("PAGE_CHANGE", f"{button_text} changed page", "success")
+        track(
+            "PAGE_CHANGE",
+            f"{button_text} changed page",
+            "success"
+        )
+
         return "success"
 
 
@@ -122,8 +164,9 @@ def analyze_buttons(page, original_url):
             print(button_text)
 
             before_url = page.url
-            before_content = page.content()
-            before_count = buttons.count()
+            before_title = page.title()
+            before_count = page.locator("button").count()
+            before_text = page.locator("body").inner_text(timeout=2000)
 
             # Perform click
             click_success, click_status = safe_click(page, current_button, button_text)
@@ -133,7 +176,7 @@ def analyze_buttons(page, original_url):
 
             # Analyze what happened
             if click_success:
-                detect_interaction_result(page, button_text, before_url, before_content)
+                detect_interaction_result(page, button_text, before_url, before_title, before_count, before_text)
 
             # Discover new buttons
             discover_new_buttons(page, before_count, queue)
@@ -147,19 +190,36 @@ def analyze_buttons(page, original_url):
 
 def generate_summary(execution_time):
     print("\n" + "="*65)
-    print("                    FLOWRA ANALYSIS REPORT")
+    print("                  FLOWRA ANALYSIS REPORT")
     print("="*65)
 
+    high_issues = [log for log in logs if log.get("severity") == "HIGH"]
+    medium_issues = [log for log in logs if log.get("severity") == "MEDIUM"]
+    low_issues = [log for log in logs if log.get("severity") == "LOW"]
+
+    if high_issues:
+        print(f"\nHigh Severity Issues   : {len(high_issues)}")
+
+    if medium_issues:
+        print(f"\nMedium Severity Issues : {len(medium_issues)}")
+
+    if low_issues:
+        print(f"\nLow Severity Issues    : {len(low_issues)}")
+
+    # Count different issue types
     frontend_errors = [log for log in logs if log.get("category") == "FRONTEND_ERROR"]
     broken_interactions = [log for log in logs if log.get("category") == "BROKEN_INTERACTION"]
     stale_locators = [log for log in logs if log.get("category") == "STALE_LOCATOR"]
+    disabled_buttons = [log for log in logs if log.get("category") == "DISABLED_ELEMENT"]
 
+    # Calculate Score
     score = 100
     score -= len(frontend_errors) * 12
     score -= len(broken_interactions) * 10
     score -= len(stale_locators) * 6
     score = max(score, 0)
 
+    # Determine Grade
     if score >= 85:
         grade = "Excellent"
     elif score >= 70:
@@ -169,35 +229,41 @@ def generate_summary(execution_time):
     else:
         grade = "Critical"
 
-    print(f"\nScore: {score}/100")
-    print(f"Grade: {grade}")
-    print(f"Execution Time: {execution_time} seconds\n")
+    # Print Clean Report
+    print(f"\nScore          : {score}/100")
+    print(f"Grade          : {grade}")
+    print(f"Execution Time : {execution_time} seconds")
+    print(f"Total Events   : {len(logs)}\n")
 
     if frontend_errors:
-        print("Frontend Errors:")
-        for err in frontend_errors[:5]:
-            print(f"   • {err['target']}")
-    
+        print(f"Frontend Errors     : {len(frontend_errors)}")
+        for log in frontend_errors[:4]:
+            print(f"   • {log['target']}")
+        if len(frontend_errors) > 4:
+            print(f"   ... +{len(frontend_errors)-4} more")
+
     if broken_interactions:
-        print("\nBroken Interactions:")
-        for issue in broken_interactions[:6]:
-            print(f"   • {issue['target']}")
+        print(f"\nBroken Interactions : {len(broken_interactions)}")
+        for log in broken_interactions[:4]:
+            print(f"   • {log['target']}")
 
     if stale_locators:
-        print("\nStale Locators:")
-        for stale in stale_locators[:4]:
-            print(f"   • {stale['target']}")
+        print(f"\nStale Locators      : {len(stale_locators)}")
+        for log in stale_locators[:3]:
+            print(f"   • {log['target']}")
 
     print("\n" + "="*65)
 
+    # Return summary for JSON
     return {
-        "total_events": len(logs),
         "score": score,
         "grade": grade,
         "execution_time": execution_time,
+        "total_events": len(logs),
         "frontend_errors": len(frontend_errors),
         "broken_interactions": len(broken_interactions),
-        "stale_locators": len(stale_locators)
+        "stale_locators": len(stale_locators),
+        "disabled_buttons": len(disabled_buttons)
     }
 
 

@@ -1,126 +1,143 @@
 {
     "logs": [
         {
-            "timestamp": "01:42:31",
+            "timestamp": "00:42:53",
             "type": "SYSTEM",
             "target": "browser launch",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:32",
+            "timestamp": "00:42:55",
             "type": "CONSOLE",
             "target": "Live reload enabled.",
             "status": "log",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:33",
+            "timestamp": "00:42:55",
             "type": "NAVIGATION",
             "target": "login page",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:33",
+            "timestamp": "00:42:55",
             "type": "CONSOLE",
             "target": "Failed to load resource: the server responded with a status of 404 (Not Found)",
             "status": "error",
+            "severity": "HIGH",
             "category": "FRONTEND_ERROR"
         },
         {
-            "timestamp": "01:42:33",
+            "timestamp": "00:42:55",
             "type": "INPUT",
             "target": "input_0",
             "status": "success",
+            "severity": "INFO",
             "category": "INPUT_FIELD"
         },
         {
-            "timestamp": "01:42:33",
+            "timestamp": "00:42:56",
             "type": "PAGE_CHANGE",
             "target": "Show Welcome changed page",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:56",
             "type": "CONSOLE",
             "target": "Button failed unexpectedly",
             "status": "error",
+            "severity": "HIGH",
             "category": "FRONTEND_ERROR"
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:57",
             "type": "PAGE_CHANGE",
             "target": "Broken Button did not change page",
             "status": "warning",
+            "severity": "HIGH",
             "category": "BROKEN_INTERACTION"
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:57",
             "type": "SCREENSHOT",
-            "target": "screenshots/failure_broken_interaction_Broken Button_1779912754.png",
+            "target": "screenshots/failure_broken_interaction_Broken Button_1780081977.png",
             "status": "captured",
+            "severity": "INFO",
             "category": "FAILURE_EVIDENCE"
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:57",
             "type": "PAGE_CHANGE",
             "target": "Delayed Response changed page",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:58",
             "type": "CLICK",
             "target": "button 'Disabled Button'",
             "status": "warning: disabled",
+            "severity": "MEDIUM",
             "category": "DISABLED_ELEMENT"
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:58",
             "type": "PAGE_CHANGE",
             "target": "Open Modal changed page",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:59",
             "type": "PAGE_CHANGE",
             "target": "Create New Button changed page",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:59",
             "type": "DOM_CHANGE",
             "target": "new button detected",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:34",
+            "timestamp": "00:42:59",
             "type": "NAVIGATION",
             "target": "http://127.0.0.1:5500/success.html",
             "status": "success",
+            "severity": "INFO",
             "category": null
         },
         {
-            "timestamp": "01:42:37",
+            "timestamp": "00:43:01",
             "type": "CLICK",
             "target": "unknown_button",
             "status": "failed",
+            "severity": "LOW",
             "category": "STALE_LOCATOR"
         }
     ],
     "summary": {
-        "total_events": 16,
         "score": 60,
         "grade": "Needs Improvement",
-        "execution_time": 3.85,
+        "execution_time": 5.98,
+        "total_events": 16,
         "frontend_errors": 2,
         "broken_interactions": 1,
-        "stale_locators": 1
+        "stale_locators": 1,
+        "disabled_buttons": 1
     },
-    "generated_at": "2026-05-28 01:42:37"
+    "generated_at": "2026-05-30 00:43:01"
 }
